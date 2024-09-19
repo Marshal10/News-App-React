@@ -6,6 +6,7 @@ import scienceImg from "../assets/images/science.jpg";
 import healthImg from "../assets/images/health.jpg";
 import entertainmentImg from "../assets/images/entertainment.jpg";
 import nationImg from "../assets/images/nation.jpg";
+import noImg from "../assets/images/no-img.png";
 import "./News.css";
 import axios from "axios";
 import { useState } from "react";
@@ -26,6 +27,7 @@ function News() {
 
       setHeadline(data[0]);
       setNews(data.slice(1, 7));
+      console.log(data.slice(1, 7));
     }
 
     fetchNews();
@@ -70,42 +72,19 @@ function News() {
           </div>
         </nav>
         <div className="news-section">
-          <div className="headline">
-            <img src={techImg} alt="Headline Image" />
-            <h2 className="headline-title">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, et!
-            </h2>
-          </div>
+          {headline && (
+            <div className="headline">
+              <img src={headline.image || noImg} alt={headline.title} />
+              <h2 className="headline-title">{headline.title}</h2>
+            </div>
+          )}
           <div className="news-grid">
-            <div className="news-grid-item">
-              <img src={worldImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
-
-            <div className="news-grid-item">
-              <img src={sportsImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
-
-            <div className="news-grid-item">
-              <img src={scienceImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
-
-            <div className="news-grid-item">
-              <img src={healthImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
-
-            <div className="news-grid-item">
-              <img src={entertainmentImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
-
-            <div className="news-grid-item">
-              <img src={nationImg} alt="News Image" />
-              <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</h3>
-            </div>
+            {news.map((article, index) => (
+              <div className="news-grid-item" key={index}>
+                <img src={article.image || noImg} alt={article.title} />
+                <h3>{article.title}</h3>
+              </div>
+            ))}
           </div>
         </div>
       </div>
