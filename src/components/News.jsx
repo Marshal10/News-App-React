@@ -11,6 +11,7 @@ import "./News.css";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import Loader from "./Loader";
 
 const apiKey = import.meta.env.VITE_NEWS_API;
 
@@ -30,10 +31,12 @@ function News() {
   const [headline, setHeadline] = useState(null);
   const [news, setNews] = useState([]);
   const [category, setCategory] = useState("general");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
       async function fetchNews() {
+        setIsLoading(true);
         const url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&apikey=${apiKey}`;
         const response = await axios.get(url);
 
@@ -41,7 +44,7 @@ function News() {
 
         setHeadline(data[0]);
         setNews(data.slice(1, 7));
-        console.log(data.slice(1, 7));
+        setIsLoading(false);
       }
 
       // fetchNews();
@@ -76,20 +79,26 @@ function News() {
           </div>
         </nav>
         <div className="news-section">
-          {headline && (
-            <div className="headline">
-              <img src={headline.image || noImg} alt={headline.title} />
-              <h2 className="headline-title">{headline.title}</h2>
-            </div>
-          )}
-          <div className="news-grid">
-            {news.map((article, index) => (
-              <div className="news-grid-item" key={index}>
-                <img src={article.image || noImg} alt={article.title} />
-                <h3>{article.title}</h3>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {headline && (
+                <div className="headline">
+                  <img src={headline.image || noImg} alt={headline.title} />
+                  <h2 className="headline-title">{headline.title}</h2>
+                </div>
+              )}
+              <div className="news-grid">
+                {news.map((article, index) => (
+                  <div className="news-grid-item" key={index}>
+                    <img src={article.image || noImg} alt={article.title} />
+                    <h3>{article.title}</h3>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
         </div>
       </div>
       <footer>

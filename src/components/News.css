@@ -69,6 +69,7 @@
 
 .news-section {
   width: 80%;
+  position: relative;
 }
 
 .headline {
