@@ -14,24 +14,45 @@ import { useEffect } from "react";
 
 const apiKey = import.meta.env.VITE_NEWS_API;
 
+const categories = [
+  "general",
+  "world",
+  "business",
+  "technology",
+  "entertainment",
+  "sports",
+  "science",
+  "health",
+  "nation",
+];
+
 function News() {
   const [headline, setHeadline] = useState(null);
   const [news, setNews] = useState([]);
+  const [category, setCategory] = useState("general");
 
-  useEffect(function () {
-    async function fetchNews() {
-      const url = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&apikey=${apiKey}`;
-      const response = await axios.get(url);
+  useEffect(
+    function () {
+      async function fetchNews() {
+        const url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&apikey=${apiKey}`;
+        const response = await axios.get(url);
 
-      const data = response.data.articles;
+        const data = response.data.articles;
 
-      setHeadline(data[0]);
-      setNews(data.slice(1, 7));
-      console.log(data.slice(1, 7));
-    }
+        setHeadline(data[0]);
+        setNews(data.slice(1, 7));
+        console.log(data.slice(1, 7));
+      }
 
-    fetchNews();
-  }, []);
+      // fetchNews();
+    },
+    [category]
+  );
+
+  function handleCategoryClick(e, category) {
+    e.preventDefault();
+    setCategory(category);
+  }
 
   return (
     <div className="news-app">
@@ -42,33 +63,16 @@ function News() {
         <nav className="navbar">
           <h1 className="nav-heading">Categories</h1>
           <div className="categories">
-            <a href="#" className="nav-link">
-              General
-            </a>
-            <a href="#" className="nav-link">
-              World
-            </a>
-            <a href="#" className="nav-link">
-              Business
-            </a>
-            <a href="#" className="nav-link">
-              Technology
-            </a>
-            <a href="#" className="nav-link">
-              Entertainment
-            </a>
-            <a href="#" className="nav-link">
-              Sports
-            </a>
-            <a href="#" className="nav-link">
-              Science
-            </a>
-            <a href="#" className="nav-link">
-              Health
-            </a>
-            <a href="#" className="nav-link">
-              Nation
-            </a>
+            {categories.map((category) => (
+              <a
+                href="#"
+                className="nav-link"
+                key={category}
+                onClick={(e) => handleCategoryClick(e, category)}
+              >
+                {category}
+              </a>
+            ))}
           </div>
         </nav>
         <div className="news-section">
