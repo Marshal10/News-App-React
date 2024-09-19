@@ -7,8 +7,30 @@ import healthImg from "../assets/images/health.jpg";
 import entertainmentImg from "../assets/images/entertainment.jpg";
 import nationImg from "../assets/images/nation.jpg";
 import "./News.css";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+
+const apiKey = import.meta.env.VITE_NEWS_API;
 
 function News() {
+  const [headline, setHeadline] = useState(null);
+  const [news, setNews] = useState([]);
+
+  useEffect(function () {
+    async function fetchNews() {
+      const url = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&apikey=${apiKey}`;
+      const response = await axios.get(url);
+
+      const data = response.data.articles;
+
+      setHeadline(data[0]);
+      setNews(data.slice(1, 7));
+    }
+
+    fetchNews();
+  }, []);
+
   return (
     <div className="news-app">
       <div className="news-header">
