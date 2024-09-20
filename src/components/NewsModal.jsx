@@ -2,11 +2,12 @@
 import "./NewsModal.css";
 import demoImg from "../assets/images/demo.jpg";
 
-function NewsModal() {
+function NewsModal({ showModal, article, handleCloseModal }) {
+  if (!showModal) return null;
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <span className="close-btn">
+        <span className="close-btn" onClick={handleCloseModal}>
           <i className="fa-solid fa-xmark"></i>
         </span>
         <img src={demoImg} alt="Article image" className="modal-img" />

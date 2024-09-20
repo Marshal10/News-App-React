@@ -33,6 +33,8 @@ function News() {
   const [news, setNews] = useState([]);
   const [category, setCategory] = useState("general");
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   useEffect(
     function () {
@@ -56,6 +58,17 @@ function News() {
   function handleCategoryClick(e, category) {
     e.preventDefault();
     setCategory(category);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+
+  function handleArticleClick(article) {
+    setSelectedArticle(article);
+    setShowModal(true);
+
+    console.log(article);
   }
 
   return (
@@ -85,14 +98,21 @@ function News() {
           ) : (
             <>
               {headline && (
-                <div className="headline">
+                <div
+                  className="headline"
+                  onClick={() => handleArticleClick(headline)}
+                >
                   <img src={headline.image || noImg} alt={headline.title} />
                   <h2 className="headline-title">{headline.title}</h2>
                 </div>
               )}
               <div className="news-grid">
                 {news.map((article, index) => (
-                  <div className="news-grid-item" key={index}>
+                  <div
+                    className="news-grid-item"
+                    key={index}
+                    onClick={() => handleArticleClick(article)}
+                  >
                     <img src={article.image || noImg} alt={article.title} />
                     <h3>{article.title}</h3>
                   </div>
@@ -101,7 +121,11 @@ function News() {
             </>
           )}
         </div>
-        <NewsModal />
+        <NewsModal
+          showModal={showModal}
+          article={selectedArticle}
+          handleCloseModal={handleCloseModal}
+        />
       </div>
       <footer>
         <p className="copyright">
