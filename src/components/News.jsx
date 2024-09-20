@@ -50,7 +50,7 @@ function News() {
         setIsLoading(false);
       }
 
-      // fetchNews();
+      fetchNews();
     },
     [category]
   );
