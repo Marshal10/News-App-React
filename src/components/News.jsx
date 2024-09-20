@@ -12,6 +12,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import Loader from "./Loader";
+import NewsModal from "./NewsModal";
 
 const apiKey = import.meta.env.VITE_NEWS_API;
 
@@ -100,6 +101,7 @@ function News() {
             </>
           )}
         </div>
+        <NewsModal />
       </div>
       <footer>
         <p className="copyright">
