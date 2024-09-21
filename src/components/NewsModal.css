@@ -78,3 +78,9 @@
 .read-more-link:active {
   transform: translateY(0.1rem);
 }
+
+@media (max-width: 500px) {
+  .modal-content {
+    width: 80%;
+  }
+}
